@@ -1,0 +1,696 @@
+swagger: '2.0'
+info:
+  description: Api Documentation
+  version: '1.0'
+  title: Api Documentation
+  termsOfService: urn:tos
+  contact: {}
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0
+host: http://195.113.132.165:8080/permonik
+basePath: /
+tags:
+  - name: Perm
+    description: Perm Api
+paths:
+  /api/metatitul:
+    get:
+      tags:
+        - Perm
+      summary: Lists all metatitles excluding test data
+      operationId: listMetatitlesUsingGET
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/MetatitulDto'
+              
+  /api/metatitul/test:
+    get:
+      tags:
+        - Perm
+      summary: Lists all test metatitles
+      operationId: listTestMetatitlesUsingGET
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/MetatitulDto'            
+              
+  /api/exemplar/{id}/title-page-name:
+    get:
+      tags:
+        - Perm
+      summary: Lists all title page names of metatitle given by metatitle ID
+      operationId: listTitlePageNamesOfGivenTitle
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          type: string
+          required: true
+          description: ID of the metatitle  
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/TitlePageNameDto'             
+              
+  /api/exemplar/{id}/mutations:
+    get:
+      tags:
+        - Perm
+      summary: Lists all mutations of metatitle given by metatitle ID
+      operationId: listMutationsOfGivenTitle
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          type: string
+          required: true
+          description: ID of the metatitle  
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/MutationDto'            
+ 
+  /api/exemplar/{id}/publications:
+    get:
+      tags:
+        - Perm
+      summary: Lists all publications of metatitle given by metatitle ID
+      operationId: lisPublicationsOfGivenTitle
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          type: string
+          required: true
+          description: ID of the metatitle  
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/PublicationDto'   
+ 
+  /api/exemplar/{id}/mutation_markings:
+    get:
+      tags:
+        - Perm
+      summary: Lists all mutation markings of metatitle given by metatitle ID
+      operationId: listMutationMarkingsOfGivenTitle
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          type: string
+          required: true
+          description: ID of the metatitle  
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/MutationMarkingDto' 
+  
+  /api/exemplar/{id}/owners:
+    get:
+      tags:
+        - Perm
+      summary: Lists all owners of metatitle given by metatitle ID
+      operationId: listOwnersOfGivenTitle
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          type: string
+          required: true
+          description: ID of the metatitle  
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/OwnerDto' 
+  
+  /api/exemplar/{id}/state:
+    get:
+      tags:
+        - Perm
+      summary: Lists all states of metatitle given by metatitle ID
+      operationId: listStatesOfGivenTitle
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          type: string
+          required: true
+          description: ID of the metatitle  
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/StateDto' 
+            
+  /api/exemplar/{id}/dates-range:
+    get:
+      tags:
+        - Perm
+      summary: Lists the date of first and last issue of metatitle given by metatitle ID
+      operationId: listDatesRangeOfGivenTitle
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          type: string
+          required: true
+          description: ID of the metatitle  
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/DatesRangeDto' 
+  
+  /api/exemplar/{id}/from-year/{year}:
+    get:
+      tags:
+        - Perm
+      summary: Lists all exemplars from given year of metatitle given by metatitle ID
+      operationId: listExemplarsOfGivenTitleFromGivenYear
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          type: string
+          required: true
+          description: ID of the metatitle
+        - in: path
+          name: year
+          type: integer
+          required: true
+          description: Year of exemplars  
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/FromYearDto' 
+  
+  /api/exemplar/{id}/years-range/{yearFrom-yearTo}:
+    get:
+      tags:
+        - Perm
+      summary: Lists all exemplars from given years range of metatitle given by metatitle ID
+      operationId: listExemplarsOfGivenTitleFromGivenYearsRange
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          type: string
+          required: true
+          description: ID of the metatitle
+        - in: path
+          name: yearFrom-yearTo
+          type: string
+          required: true
+          description: "Eg. \"1970-1972\" - returns exemplars from years 1970, 1971 and 1972"
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/YearsRangeDto' 
+              
+definitions:
+    
+    #TODO: zoradit definicie podla abecedy na zaver
+    
+  MetatitulDto:
+    type: object
+    properties:
+      numFound:
+        type: integer
+      start:
+        type: integer
+      numFoundExact:
+        type: boolean
+      docs:
+        type: array
+        items : {
+          $ref : '#/definitions/MetatitulDoc'
+        }
+    title: MetatitulDto
+    
+  MetatitulDoc:
+    type: object
+    properties:
+      id:
+        type: string
+      periodicita:
+        type: string
+      meta_nazev:
+        type: string
+      _version_: 
+        type: string
+      poznamka: 
+        type: string  
+      meta_nazev_sort: 
+        type: string 
+      pocet_stran: 
+        type: integer
+      uuid: 
+        type: string
+      meta_nazev_str: 
+        type: string  
+    title: MetatitulDoc
+    
+  TitlePageNameDto:
+    type: object
+    properties:
+      response:
+        type: object
+        properties:
+          numFound:
+            type: integer
+          start:
+            type: integer
+          numFoundExact:
+            type: boolean
+          docs:
+            type: array
+            items : {
+              type: string
+            }
+            example: []
+            description: "Will always be an empty array"
+      facet_counts:
+        type: object
+        properties: 
+          facet_fields: 
+            $ref : '#/definitions/facet_fields_titlePage'
+    title: TitlePageNameDto
+    
+  ResponseDto:
+    type: object
+    properties:
+      numFound:
+        type: integer
+      start:
+        type: integer
+      numFoundExact:
+        type: boolean
+      docs:
+        type: array
+        items : {
+          type: string
+        }
+        example: []
+        description: "Will always be an empty array."
+      
+    title: ResponseDto
+    
+  facet_fields_titlePage:
+    type: object
+    properties:
+      nazev: 
+        type: array
+        items:
+          type: object
+          properties:
+        #TODO: TIETO FIELDY NIE SU POMENOVANE!!! neexistuje ziadny "nazev" a "pocet_vyskytu"... ako zabezpecit, aby som to nemusel explictine pisat?
+            nazev: 
+              type: string
+            pocet_vyskytu: 
+              type: integer
+    title: facet_fields  
+  
+  facet_fields_mutation:
+    type: object
+    properties:
+      mutace: 
+        type: array
+        items:
+          type: object
+          properties:
+        #TODO: TIETO FIELDY NIE SU POMENOVANE!!! neexistuje ziadny "nazev" a "pocet_vyskytu"... ako zabezpecit, aby som to nemusel explictine pisat?
+            mutace: 
+              type: string
+            pocet_vyskytu: 
+              type: integer
+    title: facet_fields
+   
+  facet_fields_publication:
+    type: object
+    properties:
+      vydani: 
+        type: array
+        items:
+          type: object
+          properties:
+        #TODO: TIETO FIELDY NIE SU POMENOVANE!!! neexistuje ziadny "nazev" a "pocet_vyskytu"... ako zabezpecit, aby som to nemusel explictine pisat?
+            vydani: 
+              type: string
+            pocet_vyskytu: 
+              type: integer
+    title: facet_fields 
+    
+  facet_fields_mutationMarking:
+    type: object
+    properties:
+      oznaceni: 
+        type: array
+        items:
+          type: object
+          properties:
+        #TODO: TIETO FIELDY NIE SU POMENOVANE!!! neexistuje ziadny "nazev" a "pocet_vyskytu"... ako zabezpecit, aby som to nemusel explictine pisat?
+            oznaceni: 
+              type: string
+            pocet_vyskytu: 
+              type: integer
+    title: facet_fields   
+  
+  facet_fields_owner:
+    type: object
+    properties:
+      vlastnik: 
+        type: array
+        items:
+          type: object
+          properties:
+        #TODO: TIETO FIELDY NIE SU POMENOVANE!!! neexistuje ziadny "nazev" a "pocet_vyskytu"... ako zabezpecit, aby som to nemusel explictine pisat?
+            vlastnik: 
+              type: string
+            pocet_vyskytu: 
+              type: integer
+    title: facet_fields
+  
+  facet_fields_state:
+    type: object
+    properties:
+      stav: 
+        type: array
+        items:
+          type: object
+          properties:
+        #TODO: TIETO FIELDY NIE SU POMENOVANE!!! neexistuje ziadny "nazev" a "pocet_vyskytu"... ako zabezpecit, aby som to nemusel explictine pisat?
+            stav: 
+              type: string
+            pocet_vyskytu: 
+              type: integer
+    title: facet_fields
+    
+  stats_fields_dates:
+    type: object
+    properties:
+      datum_vydani_den: 
+        type: object
+        properties:
+            min: 
+              type: string
+            max: 
+              type: string
+            count: 
+              type: integer
+            missing: 
+              type: integer
+    title: stats_fields
+    
+  MutationDto:
+    type: object
+    properties:
+      response:
+        type: object
+        properties:
+          numFound:
+            type: integer
+          start:
+            type: integer
+          numFoundExact:
+            type: boolean
+          docs:
+            type: array
+            items : {
+              type: string
+            }
+            example: []
+            description: "Will always be an empty array"
+      facet_counts:
+        type: object
+        properties:
+          facet_fields: 
+            $ref : '#/definitions/facet_fields_mutation'
+    title: MutationDto     
+  
+  PublicationDto:
+    type: object
+    properties:
+      response:
+        type: object
+        properties:
+          numFound:
+            type: integer
+          start:
+            type: integer
+          numFoundExact:
+            type: boolean
+          docs:
+            type: array
+            items : {
+              type: string
+            }
+            example: []
+            description: "Will always be an empty array"
+      facet_counts:
+        type: object
+        properties: 
+          facet_fields: 
+            $ref : '#/definitions/facet_fields_publication'
+    title: PublicationDto 
+    
+  MutationMarkingDto:
+    type: object
+    properties:
+      response:
+        type: object
+        properties:
+          numFound:
+            type: integer
+          start:
+            type: integer
+          numFoundExact:
+            type: boolean
+          docs:
+            type: array
+            items : {
+              type: string
+            }
+            example: []
+            description: "Will always be an empty array"
+      facet_counts:
+        type: object
+        properties:
+          facet_fields: 
+            $ref : '#/definitions/facet_fields_mutationMarking'
+    title: MutationMarkingDto   
+    
+  OwnerDto:
+    type: object
+    properties:
+      response:
+        type: object
+        properties:
+          numFound:
+            type: integer
+          start:
+            type: integer
+          numFoundExact:
+            type: boolean
+          docs:
+            type: array
+            items : {
+              type: string
+            }
+            example: []
+            description: "Will always be an empty array"
+      facet_counts:
+        type: object
+        properties:
+          facet_fields: 
+            $ref : '#/definitions/facet_fields_owner'
+        
+    title: OwnerDto    
+    
+  StateDto:
+    type: object
+    properties:
+      response:
+        type: object
+        properties:
+          numFound:
+            type: integer
+          start:
+            type: integer
+          numFoundExact:
+            type: boolean
+          docs:
+            type: array
+            items : {
+              type: string
+            }
+            example: []
+            description: "Will always be an empty array"
+      stats:
+        type: object
+        properties : 
+          stats_field: 
+            $ref : '#/definitions/facet_fields_state'
+    title: StateDto    
+  
+  DatesRangeDto:
+    type: object
+    properties:
+      response:
+        type: object
+        properties:
+          numFound:
+            type: integer
+          start:
+            type: integer
+          numFoundExact:
+            type: boolean
+          docs:
+            type: array
+            items : {
+              type: string
+            }
+            example: []
+            description: "Will always be an empty array"
+      stats:
+        type: object
+        properties : 
+          stats_field: 
+            $ref : '#/definitions/stats_fields_dates'
+    title: DatesRangeDto  
+   
+  FromYearDto:
+    type: object
+    properties:
+      numFound:
+        type: integer
+      start:
+        type: integer
+      numFoundExact:
+        type: boolean
+      docs:
+        type: array
+        items : {
+          $ref : '#/definitions/ExemplarDoc'
+        }
+    title: FromYearDto
+  
+  YearsRangeDto:
+    type: object
+    properties:
+      numFound:
+        type: integer
+      start:
+        type: integer
+      numFoundExact:
+        type: boolean
+      docs:
+        type: array
+        items : {
+          $ref : '#/definitions/ExemplarDoc'
+        }
+    title: YearsRangeDto
+    
+  ExemplarDoc:
+    type: object
+    properties:
+      podnazev:
+        type: string
+      vydani:
+        type: string
+      signatura:
+        type: string
+      mutace: 
+        type: string
+      periodicita: 
+        type: string  
+      id_issue: 
+        type: string 
+      pages: 
+        type: string
+      datum_vydani: 
+        type: string
+      datum_vydani_den: 
+        type: integer 
+      rocnik: 
+        type: string
+      id: 
+        type: string
+      state: 
+        type: string
+      znak_oznaceni_vydani: 
+        type: string
+      num_exists: 
+        type: boolean
+      nazev: 
+        type: string
+      id_titul: 
+        type: string
+      oznaceni: 
+        type: string
+      index_time: 
+        type: string
+      cislo: 
+        type: string
+      _vesion_: 
+        type: string
+      poznamka: 
+        type: string
+      isPriloha: 
+        type: boolean
+      vlastnik: 
+        type: string
+      cas_vydani: 
+        type: integer
+      meta_nazev: 
+        type: string
+      pocet_stran: 
+        type: integer
+      stav_popis: 
+        type: string
+      carovy_kod: 
+        type: string
+      stav: 
+        type: array
+        items:
+          type: string
+      carovy_kod_vlastnik: 
+        type: string
+      popis_oznaceni_vydani: 
+        type: string
+      cas_vydani_str: 
+        type: string
+      nazev_prilohy: 
+        type: string
+    title: ExemplarDoc  
+    
+    
+    
+    
+    
+    
+    
